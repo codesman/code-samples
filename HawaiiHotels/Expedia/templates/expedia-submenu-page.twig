@@ -1,0 +1,19 @@
+<div class="wrap">
+    <h1>{{ title }}</h1>
+    <h2>There are {{ hotels | length }} Hawaii Hotels in the Expedia Database</h2>
+    <table class="widefat">
+        <tr>
+            <th>{{ header_1 }}</th>
+            <th class="row-title">{{ header_2 }}</th>
+            <th>{{ header_3 }}</th>
+        </tr>
+        {% for hotel in list | sort %}
+            <tr>
+                <td>{{ hotel.EANHotelID }}</td>
+                <td>{{ hotel.Name }}</td>
+                <td>{{ hotel.City }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div> 
+

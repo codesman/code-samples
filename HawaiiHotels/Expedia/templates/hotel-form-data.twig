@@ -1,0 +1,7 @@
+<ul class="">
+    {% for key, value in hotel|cast_to_array %}
+		<li>
+            <p>{{ key }}: {{ value }}</p>
+        </li>
+	{% endfor %}
+</ul>

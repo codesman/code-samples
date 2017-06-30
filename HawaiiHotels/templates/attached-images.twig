@@ -1,0 +1,40 @@
+<style>
+	.expedia-default-image {
+		background-color: #00a000;
+	}
+
+	.expedia-image-detail {
+		padding-left: 1em;
+		vertical-align: top;
+	}
+	#attached_hotel_images .inside h2{
+		padding: 0;
+	}
+	.inside button.remove-all-attachments {
+		margin: .5em 0;
+	}
+</style>
+
+<h2>This Hotel has <span id="total-attached-images">{{ images|length }}</span> attached images.</h2>
+<button class="button-primary remove-all-attachments">{{ function('esc_attr_e','Remove All') }}</button>
+
+<table id="attached-images">
+	{% set imageIndex = 1 %}
+	{% for image in images %}
+		{% set url = image.URL.0 | replace({'hawaii-aloha.com/wp-content': 'hawaii-aloha.local/app'}) %}
+		{% set localURL = image.URL.0 | replace({'hawaii-aloha.com/wp-content': 'hawaii-aloha.local/app'}) %}
+		<tr class="attached-image" id="image-{{ image.ID }}">
+			<td width="150px">
+				<a href="{{ url }}?TB_iframe=true&width=750" class="thickbox" onerror="this.onerror=null;this.href='{{ localURL }}';">
+					<img width="150px" src="{{ url }}" onerror="this.onerror=null;this.src='{{ localURL }}';"></a>
+			</td>
+			<td width="" class="expedia-image-detail">
+				<p><button class="button-primary remove-attachment" name="{{ image.ID }}">{{ function('esc_attr_e','Remove') }}</button></p>
+				{% if image.ID == featured %}
+				<p><strong>Featured Image</strong></p>
+				{% endif %}
+			</td>
+	</tr>
+		{% set imageIndex = imageIndex + 1 %}
+	{% endfor %}
+</table>

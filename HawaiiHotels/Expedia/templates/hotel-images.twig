@@ -1,0 +1,67 @@
+<h2>There are {{ images|length }} images available for this Hotel.</h2>
+<style>
+	.expedia-default-image {
+		background-color: #00a000;
+	}
+
+	.expedia-image-detail {
+		padding-left: 1em;
+		vertical-align: top;
+	}
+	p {
+		margin:0 0 .25em 0;
+	}
+	.image-source-url {
+		display: none;
+	}
+	.button-success {
+		background: #0b9a05;
+		border-color: #0b9a05 #007d2e #007d2e;
+		color: white;
+		-webkit-box-shadow: 0 1px 0 #007d2e;
+		box-shadow: 0 1px 0 #007d2e;
+		text-shadow: 0 -1px 1px #007d2e, 1px 0 1px #007d2e, 0 1px 1px #007d2e, -1px 0 1px #007d2e;
+		border-radius: .25em;
+		padding: .35em;
+	}
+	button:focus {
+		outline: none;
+	}
+	.image-status .button-primary {
+		margin-right: .5em;
+		float: left;
+	}
+</style>
+<table>
+	{% set imageIndex = 1 %}
+	{% for image in images %}
+		{% if image.DefaultImage == 1 %}
+			{% set featured = '<span class="dashicons dashicons-format-image"></span> ' %}
+		{% else %}
+			{% set featured = '' %}
+		{% endif %}
+		{% set url = image.URL|replace({'http://': 'https://'}) %}
+		<tr>
+			<td width="30%">
+				<a href="{{ url }}?TB_iframe=true&width=200&height=200" class="thickbox"><img width="100%" src="{{ url }}"></a>
+			</td>
+			<td width="5%">
+			</td>
+			<td width="65%" class="expedia-image-detail">
+				<p>{{ featured }}Filename: <span class="image-filename">{{ post.post_name }}-{{ imageIndex }}.jpg</span></p>
+				<p>Caption: <span class="image-caption">{{ image.Caption }}</span></p>
+				<p>Alt: <span class="image-alt">{{ post.post_title }} {{ image.Caption }}</span></p>
+				<p class="image-source-url">{{ url }}</p>
+				<div class="image-status">
+					{% if image.isAttached != true %}
+						<button class="button-primary attach-image" name="{{ url }}">{{ function('esc_attr_e','Attach') }}</button>
+					{% endif %}
+					{% if url != featuredSource %}
+					<button class="button-primary attach-featured-image" name="{{ url }}">{{ function('esc_attr_e','Make Featured') }}</button>
+					{% endif %}
+				</div>
+			</td>
+	</tr>
+		{% set imageIndex = imageIndex + 1 %}
+	{% endfor %}
+</table>
